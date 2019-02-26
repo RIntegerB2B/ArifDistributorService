@@ -1,5 +1,5 @@
 var Ads = require('../../model/ads.model');
-var appSetting = require('../../config/appSetting');
+var appSetting = require('../../config/config');
 var fs = require('fs');
 
 exports.createAds = function (req, file, res) {

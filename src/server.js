@@ -1,13 +1,14 @@
 var express = require('express'),
     app = express(),
-    port = process.env.PORT || 3081, // port no
+     /* port = process.env.PORT || 3081 */   // port no
     bodyParser = require('body-parser');
 var cors = require('cors');
 var exec = require('child_process').exec;
 var fs = require('fs');
 var http = require('http');
 var https = require('https');
-
+const config = require('./config/config');
+var port = process.env.PORT || config.port;
 
 var routes=require('./route');
 

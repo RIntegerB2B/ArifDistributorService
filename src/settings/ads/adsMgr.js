@@ -2,7 +2,7 @@ var adsDA = require('./adsDA');
 const multer = require('multer');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
-var appSetting = require('../../config/appSetting');
+var appSetting = require('../../config/config');
 
 
 exports.createAds = function (req, res) {

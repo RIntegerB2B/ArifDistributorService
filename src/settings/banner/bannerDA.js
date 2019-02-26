@@ -1,5 +1,5 @@
 var Banners = require('../../model/banners.model');
-var appSetting = require('../../config/appSetting');
+var appSetting = require('../../config/config');
 var fs = require('fs');
 
 exports.createBanners = function (req, file,  res) {

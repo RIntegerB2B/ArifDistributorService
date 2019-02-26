@@ -1,3 +1,5 @@
+var config = require('../config/config');
+
 module.exports = {
-    url: 'mongodb://localhost:27017/arif-india'   // database name shud be  dynamic 
+   url: `mongodb://${config.host}:${config.mongoPort}/${config.dbName}`
 }
