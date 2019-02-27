@@ -1,23 +1,35 @@
 var mongoose = require('mongoose');
 
-const ProductSchema  = new mongoose.Schema({
+const ProductSchema = new mongoose.Schema({
+    productId: String,
     productTitle: String,
     productName: String,
     productDescription: String,
-    overview: String,
+    shortDescription: String,
     price: Number,
-    color: String, 
+    color: String,
+    styleCode: String,
+    skuCode: String,
     productImageName: [String],
-    subCategory: String,
+    mainCategory: String,
+    mfdQty: Number,
+    region: [{
+        regionName: String,
+        regionPrice: Number,
+        regionQuantity: Number
+    }],
+
+    // size
+    length: String,
+    breadth: String,
+    height: String,
     // details
-    styleCode: String, 
-    skuCode: String, 
     material: String,
-    brand: String,
-    dimensions: String,
-    weight: String,
-    assembly: String,
-    packageDetails: String,
+    waterProof: String,
+    laptopSize: String,
+    closure: String,
+    compartments: String,
+    pockets: String,
 });
 
 

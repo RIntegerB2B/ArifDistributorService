@@ -3,8 +3,10 @@
     "host": "localhost",
     "mongoPort": "27017",
     "dbName": "arif-india",
-    "bannerUploadPath": "./india/images/banners",
-    "bannerServerPath": "http://localhost/ArifIndia/images/banners/",
-    "adsUploadPath": "./india/images/ads",
-    "adsServerPath": "http://localhost/ArifIndia/images/ads/"
+    "bannerUploadPath": "images/banners",
+    "bannerServerPath": "http://localhost/ArifDistributor1/banners/",
+    "adsUploadPath": "images/ads",
+    "adsServerPath": "http://localhost/ArifDistributor1/ads/",
+    "productUploadPath": "images/products",
+    "productServerPath": "http://localhost/ArifDistributor1/products/"
 }

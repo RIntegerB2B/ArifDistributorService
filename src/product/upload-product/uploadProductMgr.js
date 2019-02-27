@@ -1,18 +1,31 @@
-var bannersDA = require('./bannerDA');
+'use strict';
+var uploadProductDA = require('../upload-product/uploadProductDA');
 const multer = require('multer');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var appSetting = require('../../config/config');
+var Product = require('../../model/product.model');
 
-
-exports.createBanners = function (req, res) {
+exports.createProduct = function (req, res) {
     try {
-        const PATH = appSetting.bannerUploadPath;
-        console.log(PATH);
+
+        uploadProductDA.createProduct(req, res);
+
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.createProductImage = function (req, res) {
+    try {
+        const DIR = appSetting.productUploadPath;
+        const PATH = DIR + '/' + req.params.skuCode;
+        mkdirp(PATH);
         let storage = multer.diskStorage({
             destination: (req, file, cb) => {
                 cb(null, PATH);
-                bannersDA.createBanners(req,file,res);
+                uploadProductDA.createProductImage(req, file, res);
             },
             filename: (req, file, cb) => {
                 cb(null, file.originalname);
@@ -28,6 +41,10 @@ exports.createBanners = function (req, res) {
                 return res.status(501).json({
                     error: err
                 });
+            } else {
+                res.status(200).send({
+                    message: "success"
+                });
             }
         });
 
@@ -36,17 +53,10 @@ exports.createBanners = function (req, res) {
     }
 }
 
-exports.deleteBanners = function (req, res) {
-    try {
-        bannersDA.deleteBanners(req, res);
-    } catch (error) {
-        console.log(error);
-    }
-}
 
-exports.getBanners = function (req, res) {
+exports.getProduct = function (req, res) {
     try {
-        bannersDA.getBanners(req, res);
+        uploadProductDA.getProduct(req, res);
     } catch (error) {
         console.log(error);
     }
