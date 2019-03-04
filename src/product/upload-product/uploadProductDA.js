@@ -14,29 +14,9 @@ exports.createProduct = function (req, res) {
                 res.status(500).send({
                     "result": 0
                 });
-            } else {
-                if (req.body.moq !== undefined) {
-                    MOQ.findOne({
-                        '_id': req.body.moq
-                    }, function (err, moqEdit) {
-                        if (err) {
-                            res.status(500).json(err);
-                        } else {
-                            moqEdit.products.push(productDetails.id);
-                            moqEdit.save(function (err, moqData) {
-                                if (err) {
-                                    res.status(500).send({
-                                        "message": "error while retreiving moq"
-                                    })
-                                } else {
-                                    res.status(200).json(productDetails);
-                                }
-                            })
-                        }
-                    })
-                } else {
-                    res.status(200).json(productDetails);
-                }
+            } else {  
+                res.status(200).json(productDetails);
+                
 
             }
         });
@@ -51,7 +31,18 @@ exports.createProductImage = function (req, file, res) {
             console.log(err);
 
         } else {
-            if (productDetail.productImageName.length !== 0) {
+             if (productDetail.productImageName.length === 0) {
+                productDetail.productImageName.push(file.originalname);
+                productDetail.save(function (err, data) {
+                    if (err) {
+                        res.status(500).send({
+                            "result": 0
+                        });
+                    } else {
+                        /*  console.log(data); */
+                    }
+                })
+            } else if (productDetail.productImageName.length !== 0) {
                 var ID = file.originalname;
                 var i = productDetail.productImageName.indexOf(ID);
                 if (i > -1) {
@@ -68,18 +59,7 @@ exports.createProductImage = function (req, file, res) {
                         }
                     })
                 }
-            } else if (productDetail.productImageName.length === 0) {
-                productDetail.productImageName.push(file.originalname);
-                productDetail.save(function (err, data) {
-                    if (err) {
-                        res.status(500).send({
-                            "result": 0
-                        });
-                    } else {
-                        /*  console.log(data); */
-                    }
-                })
-            }
+            } 
 
 
         }
