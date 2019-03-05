@@ -8,5 +8,11 @@
     "adsUploadPath": "images/ads",
     "adsServerPath": "http://localhost/ArifDistributor1/ads/",
     "productUploadPath": "images/products",
-    "productServerPath": "http://localhost/ArifDistributor1/products/"
+    "productServerPath": "http://localhost/ArifDistributor1/products/",
+    "logoUploadPath": "images/logo",
+    "logoServerPath": "http://localhost/ArifDistributor1/logo/",
+    "templateUploadPath": "images/template",
+    "templateServerPath": "http://localhost/ArifDistributor1/template/",
+    "headerUploadPath": "images/header",
+    "headerServerPath": "http://localhost/ArifDistributor1/header/"
 }

@@ -1,17 +1,17 @@
-var bannersDA = require('./bannerDA');
+var templateDA = require('./templateDA');
 const multer = require('multer');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var appSetting = require('../../config/config');
 
 
-exports.createBanners = function (req, res) {
+exports.createTemplateImage = function (req, res) {
     try {
-        const PATH = appSetting.bannerUploadPath;
+        const PATH = appSetting.templateUploadPath;
         let storage = multer.diskStorage({
             destination: (req, file, cb) => {
                 cb(null, PATH);
-                bannersDA.createBanners(req,file,res);
+                templateDA.createTemplateImage(req,file,res);
             },
             filename: (req, file, cb) => {
                 cb(null, file.originalname);
@@ -35,17 +35,9 @@ exports.createBanners = function (req, res) {
     }
 }
 
-exports.deleteBanners = function (req, res) {
+exports.getTemplateImages = function (req, res) {
     try {
-        bannersDA.deleteBanners(req, res);
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-exports.getBanners = function (req, res) {
-    try {
-        bannersDA.getBanners(req, res);
+        templateDA.getTemplateImages(req,res);
     } catch (error) {
         console.log(error);
     }

@@ -2,6 +2,9 @@
 var adsMgr  = require('./ads/adsMgr');
 var bannersMgr = require('./banner/bannerMgr');
 var promotionsMgr = require('./promotions/promotionsMgr');
+var footerMgr = require('./footer/footerMgr');
+var templateMgr = require('./template/templateMgr');
+var headerMgr = require('./header/headerMgr');
 
 module.exports = function(app) {
 
@@ -39,4 +42,33 @@ module.exports = function(app) {
     app.route('/editpromotions/:id')
     .put(promotionsMgr.editPromotions);
 
+    // footer 
+
+    app.route('/footer')
+    .post(footerMgr.createFooter);
+
+    app.route('/createLogoImage/:id')
+    .put(footerMgr.createLogoImage);
+
+
+    app.route('/footerDetails')
+    .get(footerMgr.getFooterDetails);
+
+    app.route('/details/:id')
+    .put(footerMgr.updateFooterDetails);
+
+    // template 
+
+    app.route('/createTemplateImage')
+    .post(templateMgr.createTemplateImage);
+
+    app.route('/templateImages')
+    .get(templateMgr.getTemplateImages);
+
+     // header 
+     app.route('/createLogoImage')
+     .post(headerMgr.createLogoImage);
+
+     app.route('/headerDetails')
+     .get(headerMgr.getHeaderDetails);
 }

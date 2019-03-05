@@ -6,7 +6,7 @@ exports.createBanners = function (req, file,  res) {
     var banners = new Banners();
     banners.bannerImage = file.originalname;
     banners.position = req.params.position;
-    banners.isApproved = false;  
+    banners.isApproved = true;    // later change it as false
     banners.save(function (err, ads) {
       if (err) {
         res.status(500).send({

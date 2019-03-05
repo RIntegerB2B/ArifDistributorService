@@ -6,7 +6,7 @@ exports.createAds = function (req, file, res) {
     var ads = new Ads();
     ads.adsImageName = file.originalname;
     ads.position = req.params.position;
-    ads.isApproved = false;  
+    ads.isApproved = true;    // later change it as false 
     ads.save(function (err, ads) {
       if (err) {
         res.status(500).send({
