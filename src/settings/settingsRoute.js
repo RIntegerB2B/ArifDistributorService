@@ -39,6 +39,9 @@ module.exports = function(app) {
     app.route('/promotions')
     .get(promotionsMgr.getPromotions);
 
+    app.route('/singlepromotions')
+    .get(promotionsMgr.getSinglePromotions);
+
     app.route('/editpromotions/:id')
     .put(promotionsMgr.editPromotions);
 
