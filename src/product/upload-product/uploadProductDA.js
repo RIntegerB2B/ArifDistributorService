@@ -32,7 +32,6 @@ exports.createProductImage = function (req, file, res) {
             console.log(err);
 
         } else {
-            console.log(productDetail);
             if (productDetail !== null) {
                 if (productDetail.productImageName.length === 0) {
                     productDetail.productImageName.push(file.originalname);
@@ -63,6 +62,9 @@ exports.createProductImage = function (req, file, res) {
                         })
                     }
                 }
+            } else {
+                
+
             }
 
 
