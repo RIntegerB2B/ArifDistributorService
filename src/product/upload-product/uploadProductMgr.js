@@ -5,12 +5,50 @@ var fs = require('fs');
 var mkdirp = require('mkdirp');
 var appSetting = require('../../config/config');
 var Product = require('../../model/product.model');
+var zeroFill = require('zero-fill')
 
 exports.createProduct = function (req, res) {
     try {
+        var currentDate = new Date();
+        var day = currentDate.getDate();
+        var month = currentDate.getMonth() + 1;
+        var year = currentDate.getFullYear();
+        var date = day + "/" + month + "/" + year;
+    
+    
+        var oYear = year.toString();
+        var orderYear = oYear.slice(-2);
+        var order = "PRO";
+        var locale = "en-us";
+        var result = currentDate.toLocaleString(locale, {
+          month: "long"
+        });
+        var orderMonth = result.substr(0, 3).toUpperCase();
 
-        uploadProductDA.createProduct(req, res);
-
+        Product.find().select().exec(function (err, details) {
+            if(err) {
+              res.status(500).send({
+                message: "Some error occurred while retrieving notes."
+              });
+            } else{
+               if (details[0] == null) {
+                var productID = order + orderYear + orderMonth + "0001";
+                console.log(productID);
+                uploadProductDA.createProduct(req, res,  productID);
+              } else {
+                var arrayLength = details.length - 1;
+              var maxID =details[arrayLength].productId.substr(10,3);
+                var incOrder = maxID.slice(-4);
+                var addZero = zeroFill(4, 1);
+                var result = parseInt(incOrder) + parseInt(addZero);
+                var results = zeroFill(4, result);
+                var productID = order + orderYear + orderMonth + results;
+                console.log(productID);
+                uploadProductDA.createProduct(req, res,  productID);
+              }
+            }
+            
+          })
 
     } catch (error) {
         console.log(error);

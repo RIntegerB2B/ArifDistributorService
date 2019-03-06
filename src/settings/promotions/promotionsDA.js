@@ -4,7 +4,8 @@ var Promotions = require('../../model/promotions.model');
 exports.createPromotions = function (req, res) {
     var promotions = new Promotions();
     promotions.promotionTitle = req.body.promotionTitle;
-    promotions.position = req.body.position;
+    promotions.position = req.body.promotionPosition;
+    promotions.productsID = req.body.productId;
     promotions.save(function (err, promotions) {
       if (err) {
         res.status(500).send({

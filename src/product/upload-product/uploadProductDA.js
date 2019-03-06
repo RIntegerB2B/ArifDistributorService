@@ -4,19 +4,20 @@ var MOQ = require('../../model/moq.model');
 var fs = require('fs');
 var appSetting = require('../../config/config');
 
-exports.createProduct = function (req, res) {
+exports.createProduct = function (req, res, productID) {
     var productData = new Product(req.body);
     productData.region = req.body.region;
     productData.mainCategory = req.body.mainCategory;
+    productData.productId = productID
     productData.save(
         function (err, productDetails) {
             if (err) { // if it contains error return 0
                 res.status(500).send({
                     "result": 0
                 });
-            } else {  
+            } else {
                 res.status(200).json(productDetails);
-                
+
 
             }
         });
@@ -31,23 +32,9 @@ exports.createProductImage = function (req, file, res) {
             console.log(err);
 
         } else {
-             if (productDetail.productImageName.length === 0) {
-                productDetail.productImageName.push(file.originalname);
-                productDetail.save(function (err, data) {
-                    if (err) {
-                        res.status(500).send({
-                            "result": 0
-                        });
-                    } else {
-                        /*  console.log(data); */
-                    }
-                })
-            } else if (productDetail.productImageName.length !== 0) {
-                var ID = file.originalname;
-                var i = productDetail.productImageName.indexOf(ID);
-                if (i > -1) {
-                    console.log('Exist');
-                } else {
+            console.log(productDetail);
+            if (productDetail !== null) {
+                if (productDetail.productImageName.length === 0) {
                     productDetail.productImageName.push(file.originalname);
                     productDetail.save(function (err, data) {
                         if (err) {
@@ -58,8 +45,26 @@ exports.createProductImage = function (req, file, res) {
                             /*  console.log(data); */
                         }
                     })
+                } else if (productDetail.productImageName.length !== 0) {
+                    var ID = file.originalname;
+                    var i = productDetail.productImageName.indexOf(ID);
+                    if (i > -1) {
+                        console.log('Exist');
+                    } else {
+                        productDetail.productImageName.push(file.originalname);
+                        productDetail.save(function (err, data) {
+                            if (err) {
+                                res.status(500).send({
+                                    "result": 0
+                                });
+                            } else {
+                                /*  console.log(data); */
+                            }
+                        })
+                    }
                 }
-            } 
+            }
+
 
 
         }
