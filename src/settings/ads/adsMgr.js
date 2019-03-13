@@ -50,3 +50,28 @@ exports.getAds = function (req, res) {
         console.log(error);
     }
 }
+exports.getUnApprovedCategory = function (req, res) {
+    try {
+        adsDA.getUnApprovedCategory(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.approveCategory = function (req, res) {
+    try {
+        adsDA.approveCategory(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
+exports.approvedCategory = function (req, res) {
+    try {
+        adsDA.approvedCategory(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+

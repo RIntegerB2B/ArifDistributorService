@@ -40,3 +40,25 @@ exports.getSinglePromotions = function (req, res) {
         console.log(error);
     }
 }
+exports.approvePromotions = function (req, res) {
+    try {
+        promotionsDA.approvePromotions(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
+exports.approvedPromotions = function (req, res) {
+    try {
+        promotionsDA.approvedPromotions(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.getUnApprovedPromotions = function (req, res) {
+    try {
+        promotionsDA.getUnApprovedPromotions(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}

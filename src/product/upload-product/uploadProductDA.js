@@ -6,7 +6,8 @@ var appSetting = require('../../config/config');
 
 exports.createProduct = function (req, res, productID) {
     var productData = new Product(req.body);
-    productData.region = req.body.region;
+    productData.price = req.body.region[0].regionPrice;
+    productData.mfdQty = req.body.region[0].regionQuantity;
     productData.mainCategory = req.body.mainCategory;
     productData.productId = productID
     productData.save(

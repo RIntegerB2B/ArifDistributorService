@@ -116,3 +116,58 @@ exports.getSinglePromotions = function (req, res) {
         console.log(error);
     }
 }
+
+exports.approvePromotions = function (req, res) {
+    Promotions.find({
+        '_id': req.params.id
+    }).select().sort({
+        position: 1
+    }).exec(function (err, promotions) {
+        if (err) {
+            res.status(500).send({
+                message: "Some error occurred while retrieving notes."
+            });
+        } else {
+            promotions[0].isApproved = true;
+            promotions[0].save(function (err, data) {
+                if (err) {
+                    res.status(500).send({
+                        message: "Some error occured while retreiving notes"
+                    })
+                } else {
+                    Promotions.find({'isApproved': false}).select().exec(function (err, promotions) {
+                        if (err) {
+                            res.status(500).send({
+                                message: "Some error occurred while retrieving notes."
+                            });
+                        } else {
+                            res.status(200).json(promotions);
+                        }
+                    });
+                }
+            })
+        }
+    });
+}
+exports.approvedPromotions = function (req, res) {
+    Promotions.find({'isApproved': true}).select().exec(function (err, promotions) {
+        if (err) {
+            res.status(500).send({
+                message: "Some error occurred while retrieving notes."
+            });
+        } else {
+            res.status(200).json(promotions);
+        }
+    });
+}
+exports.getUnApprovedPromotions = function (req, res) {
+    Promotions.find({'isApproved': false}).select().exec(function (err, promotions) {
+        if (err) {
+            res.status(500).send({
+                message: "Some error occurred while retrieving notes."
+            });
+        } else {
+            res.status(200).json(promotions);
+        }
+    });
+}

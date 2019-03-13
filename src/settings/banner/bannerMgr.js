@@ -50,3 +50,27 @@ exports.getBanners = function (req, res) {
         console.log(error);
     }
 }
+exports.getUnApprovedBanners = function (req, res) {
+    try {
+        bannersDA.getUnApprovedBanners(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.approveBanner = function (req, res) {
+    try {
+        bannersDA.approveBanner(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
+exports.approvedBanner = function (req, res) {
+    try {
+        bannersDA.approvedBanner(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+

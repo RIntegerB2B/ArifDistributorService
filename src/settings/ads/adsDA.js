@@ -77,3 +77,78 @@ exports.getAds = function (req, res) {
         }
     });
 }
+
+exports.getUnApprovedCategory = function (req, res) {
+    Ads.find({'isApproved': false}).select().sort({
+        position: 1
+    }).exec(function (err, adsImages) {
+        if (err) {
+            res.status(500).send({
+                message: "Some error occurred while retrieving notes."
+            });
+        } else {
+            var adsLength = adsImages.length -1;
+            for(var i =0; i <= adsLength; i++) {
+                adsImages[i].adsImageName =  appSetting.adsServerPath + adsImages[i].adsImageName;
+            }
+            res.status(200).json(adsImages);
+        }
+    });
+}
+
+exports.approveCategory = function (req, res) {
+    Ads.find({
+        '_id': req.params.id
+    }).select().sort({
+        position: 1
+    }).exec(function (err, adsImages) {
+        if (err) {
+            res.status(500).send({
+                message: "Some error occurred while retrieving notes."
+            });
+        } else {
+            adsImages[0].isApproved = true;
+            adsImages[0].save(function (err, data) {
+                if (err) {
+                    res.status(500).send({
+                        message: "Some error occured while retreiving notes"
+                    })
+                } else {
+                    Ads.find({'isApproved': false}).select().sort({
+                        position: 1
+                    }).exec(function (err, adsImages) {
+                        if (err) {
+                            res.status(500).send({
+                                message: "Some error occurred while retrieving notes."
+                            });
+                        } else {
+                            var adsLength = adsImages.length -1;
+                            for(var i =0; i <= adsLength; i++) {
+                                adsImages[i].adsImageName =  appSetting.adsServerPath + adsImages[i].adsImageName;
+                            }
+                            res.status(200).json(adsImages);
+                        }
+                    });
+                }
+            })
+        }
+    });
+}
+
+exports.approvedCategory = function (req, res) {
+    Ads.find({'isApproved': true}).select().sort({
+        position: 1
+    }).exec(function (err, adsImages) {
+        if (err) {
+            res.status(500).send({
+                message: "Some error occurred while retrieving notes."
+            });
+        } else {
+            var adsLength = adsImages.length -1;
+            for(var i =0; i <= adsLength; i++) {
+                adsImages[i].adsImageName =  appSetting.adsServerPath + adsImages[i].adsImageName;
+            }
+            res.status(200).json(adsImages);
+        }
+    });
+}

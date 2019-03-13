@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 const PromotionSchema = new mongoose.Schema({
     position: Number,
     productsID: [String],
-    promotionTitle: String
+    promotionTitle: String,
+    isApproved: Boolean
 
 
 });

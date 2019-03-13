@@ -65,7 +65,10 @@ exports.getHeaderDetails = function (req, res) {
                 message: "Some error occurred while retrieving notes."
             });
         } else {
-            header[0].logoImageName =  appSetting.headerServerPath + header[0].logoImageName;
+            if(header.length !== 0){
+                header[0].logoImageName =  appSetting.headerServerPath + header[0].logoImageName;
+            }
+            
             res.status(200).json(header);
         }
     });

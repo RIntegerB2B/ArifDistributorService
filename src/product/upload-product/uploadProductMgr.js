@@ -43,7 +43,6 @@ exports.createProduct = function (req, res) {
                 var result = parseInt(incOrder) + parseInt(addZero);
                 var results = zeroFill(4, result);
                 var productID = order + orderYear + orderMonth + results;
-                console.log(productID);
                 uploadProductDA.createProduct(req, res,  productID);
               }
             }

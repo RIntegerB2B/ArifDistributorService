@@ -18,6 +18,15 @@ module.exports = function(app) {
     app.route('/ads')
     .get(adsMgr.getAds);
 
+    app.route('/categorytoapprove')
+    .get(adsMgr.getUnApprovedCategory);  
+
+    app.route('/approvedCategory')
+    .get(adsMgr.approvedCategory);
+    
+    app.route('/approveCategory/:id')
+    .get(adsMgr.approveCategory);  // ads(category content)
+
     // banners
 
     app.route('/banners/:position')
@@ -29,6 +38,17 @@ module.exports = function(app) {
     app.route('/banners')
     .get(bannersMgr.getBanners);
 
+    app.route('/bannerstoapprove')
+    .get(bannersMgr.getUnApprovedBanners);
+
+    // give banner approval 
+
+    app.route('/approvebanner/:id')
+    .get(bannersMgr.approveBanner);
+
+    app.route('/approvedbanner')
+    .get(bannersMgr.approvedBanner);
+
     // promotions
     app.route('/promotions')
     .post(promotionsMgr.createPromotions);
@@ -39,8 +59,18 @@ module.exports = function(app) {
     app.route('/promotions')
     .get(promotionsMgr.getPromotions);
 
+
+   app.route('/promotionstoapprove')
+    .get(promotionsMgr.getUnApprovedPromotions);
+    
     app.route('/singlepromotions')
     .get(promotionsMgr.getSinglePromotions);
+
+    app.route('/approvepromotions/:id')
+    .get(promotionsMgr.approvePromotions);
+
+    app.route('/approvedpromotions')
+    .get(promotionsMgr.approvedPromotions);
 
     app.route('/editpromotions/:id')
     .put(promotionsMgr.editPromotions);
