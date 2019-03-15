@@ -104,4 +104,13 @@ module.exports = function(app) {
 
      app.route('/headerDetails')
      .get(headerMgr.getHeaderDetails);
+
+     app.route('/headerstoapprove')
+     .get(headerMgr.getUnApprovedHeader);
+
+     app.route('/approveheader/:id')
+    .get(headerMgr.approveHeader);
+
+    app.route('/approvedheader')
+    .get(headerMgr.getApprovedHeader);
 }

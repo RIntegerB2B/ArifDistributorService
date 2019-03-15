@@ -42,3 +42,25 @@ exports.getHeaderDetails = function (req, res) {
         console.log(error);
     }
 }
+
+exports.getUnApprovedHeader = function (req, res) {
+    try {
+        headerDA.getUnApprovedHeader(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
+exports.approveHeader = function (req, res) {
+    try {
+        headerDA.approveHeader(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
+exports.getApprovedHeader = function (req, res) {
+    try {
+        headerDA.getApprovedHeader(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
