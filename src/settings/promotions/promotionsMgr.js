@@ -33,6 +33,14 @@ exports.editPromotions = function (req, res) {
         console.log(error);
     }
 }
+exports.disablePromotions = function (req, res) {
+    try {
+        promotionsDA.disablePromotions(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 exports.getSinglePromotions = function (req, res) {
     try {
         promotionsDA.getSinglePromotions(req, res);

@@ -4,7 +4,7 @@ const ADSchema = new mongoose.Schema({
     position: Number,
     adsImageName: String,
     adsDescription: String,
-    isApproved: Boolean
+    status: Number
 });
 const ADs = mongoose.model('ads', ADSchema);
 module.exports = ADs;

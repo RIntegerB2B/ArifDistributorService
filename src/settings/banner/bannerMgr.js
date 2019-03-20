@@ -73,4 +73,10 @@ exports.approvedBanner = function (req, res) {
     }
 }
 
-
+exports.disableBanner = function (req, res) {
+    try {
+        bannersDA.disableBanner(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}

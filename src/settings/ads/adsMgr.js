@@ -72,6 +72,12 @@ exports.approvedCategory = function (req, res) {
         console.log(error);
     }
 }
-
+exports.disableCategory = function (req, res) {
+    try {
+        adsDA.disableCategory(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 

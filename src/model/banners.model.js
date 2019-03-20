@@ -5,7 +5,7 @@ const BannerSchema = new mongoose.Schema({
     bannerImage: String,
     bannerDescription: String,
     region: String,
-    isApproved: Boolean
+    status: Number
 });
 const Banners = mongoose.model('banners', BannerSchema);
 module.exports = Banners;

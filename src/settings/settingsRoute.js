@@ -8,7 +8,7 @@ var headerMgr = require('./header/headerMgr');
 
 module.exports = function(app) {
 
-    // ads 
+    // ads  // ads(category content)
     app.route('/ads/:position')
     .put(adsMgr.createAds);
 
@@ -25,7 +25,10 @@ module.exports = function(app) {
     .get(adsMgr.approvedCategory);
     
     app.route('/approveCategory/:id')
-    .get(adsMgr.approveCategory);  // ads(category content)
+    .get(adsMgr.approveCategory); 
+    
+    app.route('/disablecategory/:id')
+    .get(adsMgr.disableCategory); 
 
     // banners
 
@@ -48,6 +51,9 @@ module.exports = function(app) {
 
     app.route('/approvedbanner')
     .get(bannersMgr.approvedBanner);
+
+    app.route('/disablebanner/:id')
+    .get(bannersMgr.disableBanner);
 
     // promotions
     app.route('/promotions')
@@ -74,6 +80,9 @@ module.exports = function(app) {
 
     app.route('/editpromotions/:id')
     .put(promotionsMgr.editPromotions);
+
+    app.route('/disablepromotions/:id')
+    .get(promotionsMgr.disablePromotions);
 
     // footer 
 
@@ -105,6 +114,9 @@ module.exports = function(app) {
      app.route('/headerDetails')
      .get(headerMgr.getHeaderDetails);
 
+     app.route('/headerDetails/:id')
+     .delete(headerMgr.deleteHeaderDetails);
+
      app.route('/headerstoapprove')
      .get(headerMgr.getUnApprovedHeader);
 
@@ -113,4 +125,6 @@ module.exports = function(app) {
 
     app.route('/approvedheader')
     .get(headerMgr.getApprovedHeader);
+
+  
 }

@@ -6,6 +6,7 @@ exports.createPromotions = function (req, res) {
     promotions.promotionTitle = req.body.promotionTitle;
     promotions.position = req.body.promotionPosition;
     promotions.productsID = req.body.productId;
+    promotions.status = 0
     promotions.save(function (err, promotions) {
         if (err) {
             res.status(500).send({
@@ -25,9 +26,7 @@ exports.deletePromotions = function (req, res) {
                 "result": 0
             });
         } else {
-            Promotions.find({}).select().sort({
-                position: 1
-            }).exec(function (err, promotions) {
+            Promotions.find({'status': 1}).select().exec(function (err, promotions) {
                 if (err) {
                     res.status(500).send({
                         message: "Some error occurred while retrieving notes."
@@ -108,7 +107,38 @@ exports.editPromotions = function (req, res) {
         }
     });
 }
-
+exports.disablePromotions = function (req, res) {
+    Promotions.find({
+        '_id': req.params.id
+    }).select().sort({
+        position: 1
+    }).exec(function (err, promotions) {
+        if (err) {
+            res.status(500).send({
+                message: "Some error occurred while retrieving notes."
+            });
+        } else {
+            promotions[0].status = 2;
+            promotions[0].save(function (err, data) {
+                if (err) {
+                    res.status(500).send({
+                        message: "Some error occured while retreiving notes"
+                    })
+                } else {
+                    Promotions.find({'status': 1}).select().exec(function (err, promotions) {
+                        if (err) {
+                            res.status(500).send({
+                                message: "Some error occurred while retrieving notes."
+                            });
+                        } else {
+                            res.status(200).json(promotions);
+                        }
+                    });
+                }
+            })
+        }
+    });
+}
 exports.getSinglePromotions = function (req, res) {
     try {
         promotionsDA.getSinglePromotions(req, res);
@@ -128,14 +158,14 @@ exports.approvePromotions = function (req, res) {
                 message: "Some error occurred while retrieving notes."
             });
         } else {
-            promotions[0].isApproved = true;
+            promotions[0].status = 1;
             promotions[0].save(function (err, data) {
                 if (err) {
                     res.status(500).send({
                         message: "Some error occured while retreiving notes"
                     })
                 } else {
-                    Promotions.find({'isApproved': false}).select().exec(function (err, promotions) {
+                    Promotions.find({'status': 0}).select().exec(function (err, promotions) {
                         if (err) {
                             res.status(500).send({
                                 message: "Some error occurred while retrieving notes."
@@ -150,7 +180,7 @@ exports.approvePromotions = function (req, res) {
     });
 }
 exports.approvedPromotions = function (req, res) {
-    Promotions.find({'isApproved': true}).select().exec(function (err, promotions) {
+    Promotions.find({'status': 1}).select().exec(function (err, promotions) {
         if (err) {
             res.status(500).send({
                 message: "Some error occurred while retrieving notes."
@@ -161,7 +191,7 @@ exports.approvedPromotions = function (req, res) {
     });
 }
 exports.getUnApprovedPromotions = function (req, res) {
-    Promotions.find({'isApproved': false}).select().exec(function (err, promotions) {
+    Promotions.find({'status': 0}).select().exec(function (err, promotions) {
         if (err) {
             res.status(500).send({
                 message: "Some error occurred while retrieving notes."

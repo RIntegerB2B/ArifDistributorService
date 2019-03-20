@@ -4,7 +4,7 @@ const PromotionSchema = new mongoose.Schema({
     position: Number,
     productsID: [String],
     promotionTitle: String,
-    isApproved: Boolean
+    status: Number
 
 
 });

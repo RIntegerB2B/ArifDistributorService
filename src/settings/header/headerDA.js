@@ -1,5 +1,6 @@
 var Header  = require('../../model/header.model');
 var appSetting = require('../../config/config');
+var fs = require('fs');
 
 exports.createLogoImage = function (req,file, res) {
     Header.find({}).select().exec(function (err, headerData) {
@@ -9,6 +10,7 @@ exports.createLogoImage = function (req,file, res) {
             })
         } else {
             var header = new Header();
+            header.status = 0;
             header.logoImageName = file.originalname;
             if (headerData.length == 0) {
                 
@@ -73,10 +75,52 @@ exports.getHeaderDetails = function (req, res) {
         }
     });
 }
+exports.deleteHeaderDetails = function (req, res) {
+    Header.find({
+        '_id': req.params.id
+    }, function (err, bannerDetails) {
+        if (err) {
+            res.status(500).send({
+                "result": 0
+            });
+        } else {
+            const PATH = appSetting.headerServerPath + '/' + bannerDetails[0].logoImageName;
+            fs.unlink(PATH, (err) => {
+                if (err) {
+                    throw err;
+                } else {
+                    Banners.findByIdAndRemove(req.params.id, function (err) {
+                        if (err) {
+                            res.status(500).send({
+                                "result": 0
+                            });
+                        } else {
+                            Header.find({
+                                'status':1
+                            }).select().exec(function (err, header) {
+                                if (err) {
+                                    res.status(500).send({
+                                        message: "Some error occurred while retrieving notes."
+                                    });
+                                } else {
+                                    
+                                    if(header.length !== 0){
+                                        header[0].logoImageName =  appSetting.headerServerPath + header[0].logoImageName;
+                                    }
+                                    res.status(200).json(header);
+                                }
+                            });
+                        }
+                    });
+                }
 
+            });
+        }
+    });
+}
 exports.getUnApprovedHeader = function (req, res) {
     Header.find({
-        'isApproved':false
+        'status':0
     }).select().exec(function (err, header) {
         if (err) {
             res.status(500).send({
@@ -104,7 +148,7 @@ exports.approveHeader = function (req, res) {
                 message: "Some error occurred while retrieving notes."
             });
         } else {
-            headerImages[0].isApproved = true;
+            headerImages[0].status = 1;
             headerImages[0].save(function (err, data) {
                 if (err) {
                     res.status(500).send({
@@ -112,7 +156,7 @@ exports.approveHeader = function (req, res) {
                     })
                 } else {
                     Header.find({
-                        'isApproved':false
+                        'status':0
                     }).select().exec(function (err, header) {
                         if (err) {
                             res.status(500).send({
@@ -134,7 +178,7 @@ exports.approveHeader = function (req, res) {
 
 exports.getApprovedHeader = function (req, res) {
     Header.find({
-        'isApproved':true
+        'status':1
     }).select().exec(function (err, header) {
         if (err) {
             res.status(500).send({

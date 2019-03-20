@@ -6,7 +6,7 @@ exports.createBanners = function (req, file, res) {
     var banners = new Banners();
     banners.bannerImage = file.originalname;
     banners.position = req.params.position;
-    banners.isApproved = false; // later change it as false
+    banners.status = 0; 
     banners.save(function (err, ads) {
         if (err) {
             res.status(500).send({
@@ -39,7 +39,9 @@ exports.deleteBanners = function (req, res) {
                                 "result": 0
                             });
                         } else {
-                            Banners.find({}).select().sort({
+                            Banners.find({
+                                'status': 1
+                            }).select().sort({
                                 position: 1
                             }).exec(function (err, bannerImages) {
                                 if (err) {
@@ -84,7 +86,7 @@ exports.getBanners = function (req, res) {
 exports.getUnApprovedBanners = function (req, res) {
 
     Banners.find({
-        'isApproved': false
+        'status': 0
     }).select().sort({
         position: 1
     }).exec(function (err, bannerImages) {
@@ -112,7 +114,7 @@ exports.approveBanner = function (req, res) {
                 message: "Some error occurred while retrieving notes."
             });
         } else {
-            bannerImages[0].isApproved = true;
+            bannerImages[0].status = 1;
             bannerImages[0].save(function (err, data) {
                 if (err) {
                     res.status(500).send({
@@ -120,7 +122,7 @@ exports.approveBanner = function (req, res) {
                     })
                 } else {
                     Banners.find({
-                        'isApproved': false
+                        'status': 0
                     }).select().sort({
                         position: 1
                     }).exec(function (err, bannerImages) {
@@ -144,7 +146,7 @@ exports.approveBanner = function (req, res) {
 
 exports.approvedBanner = function (req, res) {
     Banners.find({
-        'isApproved': true
+        'status': 1,
     }).select().sort({
         position: 1
     }).exec(function (err, bannerImages) {
@@ -161,3 +163,45 @@ exports.approvedBanner = function (req, res) {
         }
     });
 }
+
+exports.disableBanner = function (req, res) {
+    Banners.find({
+        '_id': req.params.id
+    }).select().sort({
+        position: 1
+    }).exec(function (err, bannerImages) {
+        if (err) {
+            res.status(500).send({
+                message: "Some error occurred while retrieving notes."
+            });
+        } else {
+            bannerImages[0].status = 2;
+            bannerImages[0].save(function (err, data) {
+                if (err) {
+                    res.status(500).send({
+                        message: "Some error occured while retreiving notes"
+                    })
+                } else {
+                    Banners.find({
+                        'status': 1
+                    }).select().sort({
+                        position: 1
+                    }).exec(function (err, bannerImages) {
+                        if (err) {
+                            res.status(500).send({
+                                message: "Some error occurred while retrieving notes."
+                            });
+                        } else {
+                            var bannerLength = bannerImages.length - 1;
+                            for (var i = 0; i <= bannerLength; i++) {
+                                bannerImages[i].bannerImage = appSetting.bannerServerPath + bannerImages[i].bannerImage;
+                            }
+                            res.status(200).json(bannerImages);
+                        }
+                    });
+                }
+            })
+        }
+    });
+}
+

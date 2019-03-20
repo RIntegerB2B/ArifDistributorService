@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 const HeaderSchema = new mongoose.Schema({
     logoImageName: String,
-    isApproved: Boolean
+    status: Number
 
 
 });

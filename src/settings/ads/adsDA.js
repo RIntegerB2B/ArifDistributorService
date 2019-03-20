@@ -6,7 +6,7 @@ exports.createAds = function (req, file, res) {
     var ads = new Ads();
     ads.adsImageName = file.originalname;
     ads.position = req.params.position;
-    ads.isApproved = true;    // later change it as false 
+    ads.status = 0;    // later change it as false 
     ads.save(function (err, ads) {
       if (err) {
         res.status(500).send({
@@ -36,7 +36,7 @@ exports.deleteAds = function (req, res) {
                                 "result": 0
                             });
                         } else {
-                            Ads.find({}).select().sort({
+                            Ads.find({'status':1}).select().sort({
                                 position: 1
                             }).exec(function (err, adsImages) {
                                 if (err) {
@@ -79,7 +79,7 @@ exports.getAds = function (req, res) {
 }
 
 exports.getUnApprovedCategory = function (req, res) {
-    Ads.find({'isApproved': false}).select().sort({
+    Ads.find({'status': 0}).select().sort({
         position: 1
     }).exec(function (err, adsImages) {
         if (err) {
@@ -107,14 +107,14 @@ exports.approveCategory = function (req, res) {
                 message: "Some error occurred while retrieving notes."
             });
         } else {
-            adsImages[0].isApproved = true;
+            adsImages[0].status = 1;
             adsImages[0].save(function (err, data) {
                 if (err) {
                     res.status(500).send({
                         message: "Some error occured while retreiving notes"
                     })
                 } else {
-                    Ads.find({'isApproved': false}).select().sort({
+                    Ads.find({'status': 0}).select().sort({
                         position: 1
                     }).exec(function (err, adsImages) {
                         if (err) {
@@ -136,7 +136,7 @@ exports.approveCategory = function (req, res) {
 }
 
 exports.approvedCategory = function (req, res) {
-    Ads.find({'isApproved': true}).select().sort({
+    Ads.find({'status': 1}).select().sort({
         position: 1
     }).exec(function (err, adsImages) {
         if (err) {
@@ -149,6 +149,44 @@ exports.approvedCategory = function (req, res) {
                 adsImages[i].adsImageName =  appSetting.adsServerPath + adsImages[i].adsImageName;
             }
             res.status(200).json(adsImages);
+        }
+    });
+}
+exports.disableCategory = function (req, res) {
+    Ads.find({
+        '_id': req.params.id
+    }).select().sort({
+        position: 1
+    }).exec(function (err, adsImages) {
+        if (err) {
+            res.status(500).send({
+                message: "Some error occurred while retrieving notes."
+            });
+        } else {
+            adsImages[0].status = 2;
+            adsImages[0].save(function (err, data) {
+                if (err) {
+                    res.status(500).send({
+                        message: "Some error occured while retreiving notes"
+                    })
+                } else {
+                    Ads.find({'status': 1}).select().sort({
+                        position: 1
+                    }).exec(function (err, adsImages) {
+                        if (err) {
+                            res.status(500).send({
+                                message: "Some error occurred while retrieving notes."
+                            });
+                        } else {
+                            var adsLength = adsImages.length -1;
+                            for(var i =0; i <= adsLength; i++) {
+                                adsImages[i].adsImageName =  appSetting.adsServerPath + adsImages[i].adsImageName;
+                            }
+                            res.status(200).json(adsImages);
+                        }
+                    });
+                }
+            })
         }
     });
 }

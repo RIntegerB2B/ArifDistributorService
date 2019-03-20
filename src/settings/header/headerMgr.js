@@ -42,6 +42,13 @@ exports.getHeaderDetails = function (req, res) {
         console.log(error);
     }
 }
+exports.deleteHeaderDetails = function (req, res) {
+    try {
+        headerDA.deleteHeaderDetails(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 exports.getUnApprovedHeader = function (req, res) {
     try {
