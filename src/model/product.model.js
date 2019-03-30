@@ -18,7 +18,7 @@ const ProductSchema = new mongoose.Schema({
         regionPrice: Number,
         regionQuantity: Number
     }],
-
+    moq: String,
     // size
     length: String,
     breadth: String,
