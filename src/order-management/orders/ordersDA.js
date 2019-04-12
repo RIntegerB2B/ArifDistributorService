@@ -26,3 +26,16 @@ exports.viewAllOrders = function (req, res) {
         }
     });
 };
+
+exports.viewSingleOrders = function (req, res) {
+    Orders.find({_id: req.params.id}).select().exec(function (err, singleOrders) {
+        if (err) {
+            res.status(500).send({
+                message: "Some error occurred while retrieving all orders."
+            });
+        } else {
+           
+            res.status(200).json(singleOrders);
+        }
+    });
+};

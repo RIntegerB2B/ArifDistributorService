@@ -46,6 +46,7 @@ exports.createTemplateImage = function (req,file, res) {
                                     message: "Some error occurred while retrieving notes."
                                 });
                             } else {
+                                if(t)
                                 template[0].templateImageName =  appSetting.templateServerPath + template[0].templateImageName;
                                 res.status(200).json(template);
                             }

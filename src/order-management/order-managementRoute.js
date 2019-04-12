@@ -7,4 +7,7 @@ module.exports = function(app) {
 
         app.route('/allorders')
         .get(ordersMgr.viewAllOrders);
+
+        app.route('/orders/:id') 
+        .get(ordersMgr.viewSingleOrders);
 }

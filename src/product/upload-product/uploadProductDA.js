@@ -10,7 +10,7 @@ exports.createProduct = function (req, res, productID) {
     productData.mfdQty = req.body.region[0].regionQuantity;
     productData.mainCategory = req.body.mainCategory;
     productData.productId = productID;
-    productData.moq = req.body.moq;
+    productData.moq = req.body.region[0].moq;
     productData.save(
         function (err, productDetails) {
             if (err) { // if it contains error return 0
