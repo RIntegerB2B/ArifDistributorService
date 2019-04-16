@@ -10,4 +10,7 @@ module.exports = function(app) {
 
         app.route('/orders/:id') 
         .get(ordersMgr.viewSingleOrders);
+
+        app.route('/statusupdate/:id') 
+        .put(ordersMgr.updateStatus);
 }

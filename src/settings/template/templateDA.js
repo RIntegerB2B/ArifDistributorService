@@ -66,8 +66,11 @@ exports.getTemplateImages = function (req, res) {
                 message: "Some error occurred while retrieving notes."
             });
         } else {
-            template[0].templateImageName =  appSetting.templateServerPath + template[0].templateImageName;
-            res.status(200).json(template);
+            if(template.length !== 0) {
+                template[0].templateImageName =  appSetting.templateServerPath + template[0].templateImageName;
+                res.status(200).json(template);
+            }
+           
         }
     });
 }
